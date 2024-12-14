@@ -66,6 +66,7 @@ pub fn UiuaDatatype(comptime T: type) type {
 }
 const Token = struct {
     UiuaType: TokenType,
+
     pub fn evalInThisContext(self: *Token, context: *runtime.UiuaInstance()) EvalError!void {
         switch (self.UiuaType) {
             .Literal => |lit| {
@@ -82,6 +83,7 @@ const Token = struct {
                         if (!b) {
                             return EvalError.StackEmpty;
                         }
+                        return a.add(b);
                     },
                 }
             },

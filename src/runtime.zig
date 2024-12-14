@@ -7,6 +7,7 @@ fn UiuaInstance(alloc: std.mem.Allocator) type {
         allocator: std.mem.Allocator,
         stack: std.fifo.LinearFifo(values.UiuaValue, .Dynamic),
 
+        pub fn eval(self: *Self, code: []const u16) values.EvalError!void {}
         pub fn pop_value(self: *Self) values.EvalError!values.UiuaValue {
             const val = self.stack.readItem();
             if (val) {
