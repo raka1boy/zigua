@@ -1,0 +1,47 @@
+.{
+    .identity = .{
+        .name = .{"identity"},
+        .glyph = "∘",
+        .signature = .{
+            .input = .{.any},
+            .output = .{.any},
+        },
+        .description = "Do nothing with the value",
+    },
+    .add = .{
+        .names = .{"add"},
+        .glyph = "+",
+        .signature = .{
+            .input = .{ .number, .number },
+            .output = .{.number},
+        },
+        .description = "Pops two numbers, and puts the result of their addition",
+    },
+    .subtract = .{
+        .names = .{"subtract"},
+        .glyph = "-",
+        .signature = .{
+            .input = .{ .number, .number },
+            .output = .{.number},
+        },
+        .description = "Pops two numbers, and puts the result of their subtraction",
+    },
+    .multiply = .{
+        .names = .{"multiply"},
+        .glyph = "*",
+        .signature = .{
+            .input = .{ .number, .number },
+            .output = .{.number},
+        },
+        .description = "Pops two numbers, and puts the result of their multiplication",
+    },
+    .divide = .{
+        .names = .{"divide"},
+        .glyph = "÷",
+        .signature = .{
+            .input = .{ .number, .number },
+            .output = .{.number},
+        },
+        .description = "Pops two numbers, and puts the result of their division",
+    },
+}
