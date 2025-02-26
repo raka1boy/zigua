@@ -1,5 +1,5 @@
 .{
-    .name = "zigua",
+    .name = "http_test",
     .version = "0.0.0",
     .dependencies = .{},
 

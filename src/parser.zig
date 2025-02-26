@@ -8,18 +8,26 @@ const Types = enum {
     char,
 };
 const Signature = struct { input: []const Types, output: []const Types };
-const Token = struct { name: []const u8, glyph: u16, signature: Signature, description: []const u16 };
+const Token = struct {
+    names: []const []const u8,
+    glyph: u21,
+    signature: Signature,
+    description: []const u8,
+
+    pub fn print_token(self: Token) void {
+        std.debug.print(" names: ", .{});
+        for (self.names) |name| {
+            std.debug.print("{s}, ", .{name});
+        }
+        std.debug.print("\n glyph: {u}\n", .{self.glyph});
+        std.debug.print(" signature: {any}\n desription: {s}\n", .{ self.signature, self.description });
+    }
+};
 var gpa = std.heap.GeneralPurposeAllocator(.{}){};
 const comptime_alloc = gpa.allocator();
-const tokens = zon.parse.fromSlice(
-    Token,
-    comptime_alloc,
-    @embedFile("tokens/primitives.zon"),
-    null,
-    .{},
-).?;
+const tokens: []const Token = @import("tokens/primitives.zon");
 
 test "tokens validity" {
-    std.debug.print("{any}", .{tokens});
-    std.testing.expectEqual(true, true);
+    tokens[0].print_token();
+    try std.testing.expectEqual(true, true);
 }
