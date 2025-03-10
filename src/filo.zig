@@ -10,16 +10,15 @@ fn FILOStack(comptime T: type) type {
         pub fn init(alloc: std.mem.Allocator) Self {
             return .{ .alloc = alloc, .buf = undefined, .empty_pos = 0 };
         }
-
         pub fn resize(self: *Self, new_size: usize) !void {
-            if (new_size <= self.buf.len) return;
-            self.buf = try self.alloc.alloc(T, new_size);
+            const buf: []T = try self.alloc.realloc(self.buf, new_size);
+            self.buf = buf;
         }
         pub fn deinit(self: *Self) void {
             self.alloc.free(self.buf);
         }
         pub fn growByOne(self: *Self) !void {
-            self.buf = try self.alloc.alloc(T, self.buf.len + 1);
+            try self.resize(self.buf.len + 1);
         }
         pub fn push(self: *Self, val: T) !void {
             if (self.empty_pos == self.buf.len) try self.growByOne();
