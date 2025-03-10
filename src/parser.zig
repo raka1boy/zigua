@@ -23,8 +23,6 @@ const Token = struct {
         std.debug.print(" signature: {any}\n desription: {s}\n", .{ self.signature, self.description });
     }
 };
-var gpa = std.heap.GeneralPurposeAllocator(.{}){};
-const comptime_alloc = gpa.allocator();
 const tokens: []const Token = @import("tokens/primitives.zon");
 
 test "tokens validity" {
