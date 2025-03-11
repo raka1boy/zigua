@@ -1,0 +1,78 @@
+Wraparound (name is debatable):
+Is a fill type modifier that implements wrapping behaviour on missing indeces.
+When encountering a misshape of shape n, take n elements from the beginning and insert them instead.
+Example(uses "W" as a wraparound glyph):
+```
+[1 2 3 4 5]
+[1 2 3 4 5 6]
+# ⊟ will error, obviously
+# ⬚0⊟ will do:
+#╭─             
+#╷ 1 2 3 4 5 6  
+#  1 2 3 4 5 0  
+#              ╯
+#Let's try with this glyph:
+W⊟
+#╭─             
+#╷ 1 2 3 4 5 6  
+#  1 2 3 4 5 1  
+#              ╯
+#One wrapped around to match the △shape.
+```
+Before continuing with examples i want to discuss possible usecases from the top of my head.
+1) Image manipulation, obviously
+2) Ring buffers
+3) Things like GoL
+theres probably more, but it's 1 am currently.
+
+It's also possible to make `wraparound` into a sided subscript of ⬚ and allow
+to select the flow of wrapping, but that would change its arity, and i don't know how i feel about that.
+
+Example 2: Multi-dimensional arrays:
+```
+[1 2 3 4 5]
+[1 2 3 4 5 6]
+# ⊟ will error, obviously
+# ⬚0⊟ will do:
+#╭─             
+#╷ 1 2 3 4 5 6  
+#  1 2 3 4 5 0  
+#              ╯
+#Let's try with this glyph:
+W⊟
+#╭─             
+#╷ 1 2 3 4 5 6  
+#  1 2 3 4 5 1  
+#              ╯
+#One wrapped around to match the △shape.
+```
+≡⇡+₁⇡ 5 #This code errors, obviously, due to shape mismatch.
+
+⬚0≡⇡+₁⇡ 5 #This works. Save me some time on pasting the result.
+
+# But to achieve the result that would have been easy with W, 
+# we need to do something like this:
+≡˜↻⊸↯˙⊂⟜⇡ 5
+#Which ONLY works for this exact strawman problem.
+W≡⇡+₁⇡ 5 #Is simple, elegant, and communicates intent precisely.
+```
+Another reason for this proposal is i don't think there is a simple way
+to implement that in Uiua as a macro. 
+
+Hopefully it's clear how it would work on higher-order arrays.
+
+So to round it all up i want to list possible upsides and downsides, as well as just design concerns:
+Upsides:
+ 1)MUCH better for toying with images, gifs, and maybe even audiosm which is a big part of Uiua.
+ 2)Shortening and standartizing? current pattern that relies on ◿
+
+Downsides:
+ 1)Addition of another glyph
+ 2)Possibly more performance-intensive than ⬚
+
+Possible design thingys:
+ 1)Maybe it can also be dyadic, and also accept a function that operates on those values, akin to ⬚.
+ 2)There is a space to be explored on making it wrap around in the opposite direction, though this is prolly a job for ⍜⍉⤸ or ⍜⤸.
+
+So, this is basically something that i had in the back of my mind a lotof times when i was editing images.
+I would love to hear yalls ideas, and if this is even needed, or is it relevant only to my usecase.

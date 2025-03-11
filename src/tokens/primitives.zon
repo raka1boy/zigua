@@ -1,47 +1,52 @@
 .{
     .{
         .names = .{"identity"},
-        .glyph = '∘',
+        .glyph = .{'∘'},
         .signature = .{
-            .input = .{.any},
-            .output = .{.any},
+            .input = 1,
+            .output = 1,
         },
         .description = "Do nothing with the value",
+        .is_pure = true,
     },
     .{
         .names = .{"add"},
-        .glyph = '+',
+        .glyph = .{'+'},
         .signature = .{
-            .input = .{ .number, .number },
-            .output = .{.number},
+            .input = 2,
+            .output = 1,
         },
         .description = "Pops two numbers, and puts the result of their addition",
+        .is_pure = true,
     },
     .{
         .names = .{"subtract"},
-        .glyph = '-',
+        .glyph = .{'-'},
         .signature = .{
-            .input = .{ .number, .number },
-            .output = .{.number},
+            .input = 2,
+            .output = 1,
         },
         .description = "Pops two numbers, and puts the result of their subtraction",
+        .is_pure = true,
     },
     .{
         .names = .{"multiply"},
-        .glyph = '*',
+        .glyph = .{'*'},
         .signature = .{
-            .input = .{ .number, .number },
-            .output = .{.number},
+            .input = 2,
+            .output = 1,
         },
         .description = "Pops two numbers, and puts the result of their multiplication",
+        .is_pure = true,
     },
     .{
         .names = .{"divide"},
-        .glyph = '÷',
+        .glyph = .{'÷'},
         .signature = .{
-            .input = .{ .number, .number },
-            .output = .{.number},
+            .input = 2,
+            .output = 1,
         },
         .description = "Pops two numbers, and puts the result of their division",
+        .is_pure = true,
     },
 }

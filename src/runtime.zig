@@ -1,20 +1,15 @@
 const std = @import("std");
 const FILO = @import("filo.zig").FILOStack;
-const NumTypes = enum {
-    int, //truncates, mostly useless емае
-    smallfloat,
-    bigfloat,
-    fixedpoint,
-};
+const FixedPointFloat = @import("fixedpoint.zig").FixedPointFloat;
+pub const NumType = f64; //FixedPointFloat(48, 16),
 
-const UiuaValue = struct {};
+pub const UiuaValue = struct { va };
 const UiuaInstance = struct {
-    num_type: NumTypes,
     alloc: std.mem.Allocator,
     is_experimental: bool,
     stack: FILO(UiuaValue),
 
-    pub fn init(comptime allocator: std.mem.Allocator, comptime num_type: NumTypes) UiuaInstance {
+    pub fn init(comptime allocator: std.mem.Allocator) UiuaInstance {
         return .{
             .alloc = allocator,
             .num_type = num_type,

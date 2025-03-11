@@ -1,31 +1,52 @@
 const std = @import("std");
 //const runtime = @import("runtime.zig");
 const zon = std.zon;
-const Types = enum {
-    any,
-    number,
-    string,
-    char,
-};
-const Signature = struct { input: []const Types, output: []const Types };
-const Token = struct {
+
+pub fn parse(allocator: std.mem.Allocator, src: []const u21) ![]Token {}
+const UiuaValue = @import("runtime.zig").UiuaValue;
+const TokenType = enum { modifier, function };
+const Signature = struct { input: usize, output: usize };
+const Primitive = struct {
     names: []const []const u8,
-    glyph: u21,
+    glyph: []const u21,
     signature: Signature,
     description: []const u8,
-
-    pub fn print_token(self: Token) void {
-        std.debug.print(" names: ", .{});
-        for (self.names) |name| {
-            std.debug.print("{s}, ", .{name});
-        }
-        std.debug.print("\n glyph: {u}\n", .{self.glyph});
-        std.debug.print(" signature: {any}\n desription: {s}\n", .{ self.signature, self.description });
-    }
+    is_pure: bool,
 };
-const tokens: []const Token = @import("tokens/primitives.zon");
+const Function = struct {
+    tokens: []const Token,
+    signature: Signature,
+};
+const Token = union(enum) {
+    primitive: Primitive,
+    func: Function,
+    literal: UiuaValue,
+    comment: []const u21,
+
+    // fn printToken(self: Token) void {
+    //     const token_typeinfo = @typeInfo(@TypeOf(self));
+    //     const fields = token_typeinfo.@"struct".fields;
+    //     for (fields) |field| {
+    //         std.debug.print("{any}{\n", .{field.name});
+    //         switch (self) {
+    //             Token.primitive =>|val| {
+    //                 std.debug.print("{}\n", .{val.name});
+    //             }
+    //     }
+    // }
+};
+const tokens: []const Primitive = @import("tokens/primitives.zon");
 
 test "tokens validity" {
-    tokens[0].print_token();
-    try std.testing.expectEqual(true, true);
+    try std.testing.expectEqual(tokens[0].glyph[0], '∘');
+}
+
+test "parser" {
+    const src: []const u21 =
+        \\+ 1 2
+    ;
+    const allocator = std.heap.page_allocator;
+    defer allocator.free(tokens);
+    const tokens = try parse(allocator, src);
+    try std.testing.expectEqual(tokens[0].primitive., '∘');
 }
