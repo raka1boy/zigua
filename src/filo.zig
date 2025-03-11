@@ -6,7 +6,6 @@ pub fn FILOStack(comptime T: type) type {
         buf: []T,
         alloc: std.mem.Allocator,
         empty_pos: usize, //insertion boint at all times
-
         pub fn init(alloc: std.mem.Allocator) Self { //try alloc.alloc(T, 1)
             return .{ .alloc = alloc, .buf = &.{}, .empty_pos = 0 };
         }
