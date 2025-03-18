@@ -1,34 +1,31 @@
 const std = @import("std");
 //const runtime = @import("runtime.zig");
+const unicode = std.unicode;
 const zon = std.zon;
 const primitives: []const Primitive = @import("tokens/primitives.zon");
-// pub fn parse(allocator: std.mem.Allocator, src: []const u21) ![]Token {
-//     var returnTokens = std.ArrayList(Token).init(allocator);
-//     defer tokens.deinit();
-//     var lines = std.ArrayList([]const u21).init(allocator);
-//     defer lines.deinit();
-//     var line_beginning: usize = 0;
-//     for (src, 0..) |value, i| {
-//         if (value == '\n') {
-//             lines.append(src[line_beginning..i]);
-//             line_beginning = i + 1;
-//         }
-//     }
-//     return returnTokens.items;
-// }
 
 pub fn getClosestPrimitive(src: []const u21) !Primitive {
     var len: usize = 1;
     var indeces: [primitives.len]?usize = undefined;
     for (0..primitives.len) |i| indeces[i] = i;
+    std.debug.print("indeces{any}\n", .{indeces}); //indeces{ 0, 1, 2, 3, 4 }
     var validIndeces: u8 = 0;
     while (validIndeces != 1) : ({
         len += 1;
         for (indeces) |indexNullcheck| {
-            if (indexNullcheck != null) validIndeces += 1;
+            if (indexNullcheck != null) {
+                validIndeces += 1;
+            } else {
+                validIndeces = std.math.sub(u8, validIndeces, 1) catch blk: {
+                    break :blk 0;
+                };
+            }
+        }
+        if (validIndeces == 0) {
+            return error.NoPrimitivesFound;
         }
     }) {
-        std.debug.print("valid incedes: {any}\n", .{indeces});
+        std.debug.print("indeces{any}", .{indeces});
         for (indeces) |index| {
             if (validIndeces == 1) {
                 for (indeces) |indx| {
@@ -41,6 +38,7 @@ pub fn getClosestPrimitive(src: []const u21) !Primitive {
                     for (name[0..len], 0..) |value, i| {
                         name_slice[i] = @intCast(value);
                     }
+                    std.debug.print("comparing slices: {u} and {u}\n", .{ src[0..len], name_slice[0..len] });
                     if (!std.mem.eql(u21, src[0..len], name_slice[0..len])) {
                         indeces[index.?] = null;
                     }
