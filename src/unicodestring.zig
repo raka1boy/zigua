@@ -8,12 +8,12 @@ const UnicodeStringType = enum {
 pub fn UnicodeString(str_type: UnicodeStringType) type {
     return struct {
         const Self = @This();
-        const MaybeAlloc = if (str_type == .dynamic) std.mem.Allocator else void;
-        alloc: MaybeAlloc,
+        const MaybeAllocator = if (str_type == .dynamic) std.mem.Allocator else void;
+        alloc: MaybeAllocator,
         _rodata: []const u8,
         len: usize,
 
-        fn init(alloc: MaybeAlloc, src: []const u8) !Self {
+        fn init(alloc: MaybeAllocator, src: []const u8) !Self {
             if (!unicode.utf8ValidateSlice(src)) return UnicodeStrError.InvalidUTF8;
             const length = 10;
             return .{
